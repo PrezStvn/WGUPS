@@ -47,7 +47,8 @@ def read_packages(file_name):
             values = line.strip().split(',')[:x]
             package = {header: value for header, value in zip(headers, values)}
             packages.append(package)
-
+            # creating and setting the status key, value for the CLI visualization later on.
+            package['Status'] = 'At the hub'
     return packages
 
 def read_distances(file_name):

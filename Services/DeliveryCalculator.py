@@ -7,20 +7,21 @@ def calculate_delivery_times(packages, start_time, speed=18):
 
     delivery_times = []
 
-    for package, distance in packages:
+    for package_id, distance in packages:
 
         # Calculate time taken to travel the distance
         time_taken = distance / speed * 60  # in minutes
         current_time_in_minutes += time_taken
         # if we are on the return leg we skip to the next package after the time has been accumulated
-        if package == 'HUB':
+        if package_id == 'HUB':
             continue
         # Convert total minutes back to hours and minutes for the format HH:MM
         delivery_hour = int(current_time_in_minutes // 60)
         delivery_minute = int(current_time_in_minutes % 60)
 
         # Append delivery time and package number to the result
-        delivery_times.append((package, f"{delivery_hour:02}:{delivery_minute:02}"))
+        #delivery_times.append((package_id, f"{delivery_hour:02}:{delivery_minute:02}"))
+        delivery_times.append((package_id, current_time_in_minutes))
 
     return delivery_times
 

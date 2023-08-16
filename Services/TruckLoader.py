@@ -22,6 +22,7 @@ class SortTruck:
         nearest = None
         nearest_package = None
 
+        # O(n)
         for package in self.packages:
             package_address = package[1]['Address']
             if package_address in self.address_map:
@@ -42,13 +43,8 @@ class SortTruck:
 
 
 
-
-
-
-
-
-
     def same_address(self, nearest_package):
+        # O(n)
         same_address_list = []
         for package in self.packages:
             if package[1]['Address'] == nearest_package[1]['Address']:
@@ -140,11 +136,9 @@ def load_trucks(packages, address_map, distance_table):
     other_packages = remove_used_packages(truck2, other_packages)
     space_left_truck3 = 16 -len(truck3)
     truck3 += other_packages[:space_left_truck3]
-    print(other_packages)
+    other_packages = remove_used_packages(truck3, other_packages)
     truck1_sorted = SortTruck(truck1, address_map, distance_table).sort_packages()
     truck2_sorted = SortTruck(truck2, address_map, distance_table).sort_packages()
     truck3_sorted = SortTruck(truck3, address_map, distance_table).sort_packages()
-    print(other_packages)
-    print('REMAINING PACKAGES')
-    print(other_packages)
+
     return truck1_sorted, truck2_sorted, truck3_sorted

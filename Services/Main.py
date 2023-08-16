@@ -1,4 +1,7 @@
+# Steven Perez 004439406
+
 import FileReader
+from DeliverySimulator import DeliverySim
 import HashTable
 import TruckLoader
 import csv
@@ -44,7 +47,7 @@ print(addressMap)
 file_path = 'ditances.csv'
 distance_table = csv_to_distance_matrix(file_path)
 print(distance_table)
-
+# creating a data structure for each truck in use today and "loading" packages onto them
 truck1, truck2, truck3 = TruckLoader.load_trucks(package_table, addressMap, distance_table)
 print(truck1)
 print(len(truck1))
@@ -99,3 +102,8 @@ print(second_driver_delivery_times)
 
 total_wgups_miles_traversed = calculate_total_distance(first_driver_route) + calculate_total_distance(second_driver_route)
 print(total_wgups_miles_traversed)
+target_time = input("Status of packages at what time? format: HH:MM")
+current_sim = DeliverySim(package_table, first_truck_delivery_times, second_driver_delivery_times, target_time)
+status = current_sim.check_package_status()
+
+
