@@ -102,8 +102,18 @@ print(second_driver_delivery_times)
 
 total_wgups_miles_traversed = calculate_total_distance(first_driver_route) + calculate_total_distance(second_driver_route)
 print(total_wgups_miles_traversed)
-target_time = input("Status of packages at what time? format: HH:MM")
-current_sim = DeliverySim(package_table, first_truck_delivery_times, second_driver_delivery_times, target_time)
-status = current_sim.check_package_status()
+stay_in_loop = True
+while stay_in_loop:
+    print("Type exit or EXIT instead of a time to end the program")
+    target_time = input("Status of packages at what time? format: HH:MM \n")
+    if target_time.lower() == 'exit':
+        print("Exiting simulation")
+        stay_in_loop = False
+        continue
+    else:
+        current_sim = DeliverySim(package_table, first_truck_delivery_times, second_driver_delivery_times, target_time)
+        status = current_sim.check_package_status()
+
+
 
 
