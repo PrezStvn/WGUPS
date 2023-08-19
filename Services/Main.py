@@ -70,33 +70,15 @@ def main():
     package_table = HashTable.HashTable(len(packages))
     for package in packages:
         package_table.map_package(package)
-    # this was me creating a set to reverse look up addresses by package ID or by 'hash'
-
-    mapSet = set()
-    for package in package_table:
-        mapSet.add(addressMap[package[1]['Address']])
-    # my own bad form of testing here.
-    for i in range(28):
-        if i not in mapSet:
-            print(i)
-    print(addressMap)
-
 
     # creating my 2d matrix for distances   only one half of the matrix is populated so logic is written for all functions accessing it to switch n x m -- > m x n if m > n since the complete table is symmetric across the diagonal
-    file_path = 'ditances.csv'
+    file_path = 'distances.csv'
     distance_table = csv_to_distance_matrix(file_path)
     print(distance_table)
     # creating a data structure for each truck in use today and "loading" packages onto them
     truck1, truck2, truck3 = TruckLoader.load_trucks(package_table, addressMap, distance_table)
-    print(truck1)
-    print(len(truck1))
-    print(truck2)
-    print(len(truck2))
-    print(truck3)
-    print(len(truck3))
 
     # calculating trucks miles and the distance traveled for each "leg" of the journey. Meaning the distance traveled since the last package was delivered.  If this_leg == 0 then the last package was at the same address
-
     # hard coded the return trip for driver 2 on truck 3.  using -1 to dynamically access whatever his last stop was. and add the return trip to the 'HUB'
     truck3_last_stop = truck3[-1]
     last_stop_address = addressMap[truck3_last_stop[1]['Address']]

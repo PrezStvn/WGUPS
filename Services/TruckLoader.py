@@ -19,7 +19,6 @@ class SortTruck:
     def nearest_neighbor(self, current_address):
         #chose an arbitrary longest distance that was greater than any distance in d matrix
         min_distance = float(15)
-        nearest = None
         nearest_package = None
 
         # O(n)
@@ -35,21 +34,21 @@ class SortTruck:
                     index = temp
                 if self.distance_table[current_index][index] < min_distance:
                     min_distance = self.distance_table[current_index][index]
-                    nearest = current_address
                     nearest_package = package
-
 
         return nearest_package
 
 
 
     def same_address(self, nearest_package):
+
         # O(n)
         same_address_list = []
         for package in self.packages:
             if package[1]['Address'] == nearest_package[1]['Address']:
                 self.sorted_packages.append(package)
                 same_address_list.append(package)
+        #packages.remove may have bigger implications on the bigO() of this function
         for package in same_address_list:
             self.packages.remove(package)
 
@@ -57,9 +56,8 @@ class SortTruck:
 
     def sort_packages(self):
 
-
         current_address = "4001 South 700 East"  # replace this with your hub address
-
+        # O(n^2 + n)
         while len(self.sorted_packages) < self.number_of_packages:
             current_package = self.nearest_neighbor(current_address)
             current_address = current_package[1]['Address']
@@ -70,6 +68,7 @@ class SortTruck:
         return self.sorted_packages
 
 def same_address_loader(current_truck_packages, other_packages):
+
     package_id_set = set()
     for pkg in current_truck_packages:
         package_id_set.add(pkg[0])
