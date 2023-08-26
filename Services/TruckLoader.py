@@ -6,7 +6,7 @@ import HashTable
 # package 15 must be on truck one and delivered before 9 am
 # 10:30 am delivery deadline packages 6 13 14 16 20 25 29 30 31 34 37
 # each truck can only hold 16 packages     there are 3 trucks and only two drivers  loading trucks takes 0 time
-
+# O(n^2)
 class SortTruck:
     def __init__(self, packages, address_map, distance_table):
         self.packages = packages
@@ -49,7 +49,9 @@ class SortTruck:
                 self.sorted_packages.append(package)
                 same_address_list.append(package)
         #packages.remove may have bigger implications on the bigO() of this function
+        # O(n)
         for package in same_address_list:
+            # O(1)
             self.packages.remove(package)
 
 
@@ -57,7 +59,7 @@ class SortTruck:
     def sort_packages(self):
 
         current_address = "4001 South 700 East"  # replace this with your hub address
-        # O(n^2 + n)
+        # O(n(n + n))
         while len(self.sorted_packages) < self.number_of_packages:
             current_package = self.nearest_neighbor(current_address)
             current_address = current_package[1]['Address']
@@ -72,6 +74,7 @@ def same_address_loader(current_truck_packages, other_packages):
     package_id_set = set()
     for pkg in current_truck_packages:
         package_id_set.add(pkg[0])
+    # O(n^2)
     packages_on_truck = current_truck_packages.copy()
     for pkg in current_truck_packages:
         for package in other_packages:
@@ -85,6 +88,7 @@ def same_address_loader(current_truck_packages, other_packages):
     return packages_on_truck
 
 def remove_used_packages(packages_on_truck, other_packages):
+    O(n^2)
     for pkg in packages_on_truck:
         if pkg in other_packages:
             other_packages.remove(pkg)
@@ -109,8 +113,7 @@ def load_trucks(packages, address_map, distance_table):
     truck1 = same_address_loader(truck1, other_packages)
     other_packages = remove_used_packages(truck1, other_packages)
     deadline_packages = remove_used_packages(truck1, deadline_packages)
-    #left_space_truck1 = 16 - len(truck1)
-    #truck1 += other_packages[:left_space_truck1]
+
 
     # Load Truck 2
     truck2 = preset_packages_truck2
@@ -118,17 +121,20 @@ def load_trucks(packages, address_map, distance_table):
 
     truck2 = same_address_loader(truck2, other_packages)
     other_packages = remove_used_packages(truck2, other_packages)
-    #left_space_truck2 = 16 - len(truck2)
-    #truck2 += other_packages[:left_space_truck2]
+
 
 
     # Load Truck 3
     truck3 = delayed_packages + deadline_packages
     truck3 = same_address_loader(truck3, other_packages)
     other_packages = remove_used_packages(truck3, other_packages)
-
+    # left_space_truck1 = 16 - len(truck1)
+    # truck1 += other_packages[:left_space_truck1]
+    # left_space_truck2 = 16 - len(truck2)
+    # truck2 += other_packages[:left_space_truck2]
     space_left_truck1 = 16 - len(truck1)
     truck1 += other_packages[:space_left_truck1]
+    #truck1_map = HashTable.HashTable(len(truck1))
     other_packages = remove_used_packages(truck1, other_packages)
     space_left_truck2 = 16 - len(truck2)
     truck2 += other_packages[:space_left_truck2]

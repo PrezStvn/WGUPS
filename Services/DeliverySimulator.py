@@ -14,6 +14,7 @@
 #     target_time_in_minutes = hours * 60 + minutes
 
 class DeliverySim:
+    # O(n)
     def __init__(self, packages, driver1_calculated_times, driver2_calculated_times, target_time):
         self.packages = packages
         self.driver1_times = dict(driver1_calculated_times)
@@ -26,8 +27,12 @@ class DeliverySim:
         self.target_time_in_minutes = hours * 60 + minutes
 
     def print_package_status(self):
-        for package_id, package in self.packages.table:
-            print(f'Package ID: {package_id} Address: {package["Address"]} Status: {package["Status"]}')
+        current_package_id = 1
+        # for package_id, package in self.packages.table:
+        #     print(f'Package ID: {package_id} Address: {package["Address"]} Status: {package["Status"]}')
+        for package in self.packages.status():
+            print(f'Package ID: {current_package_id} Address: {package["Address"]} Status: {package["Status"]}')
+            current_package_id += 1
 
     def check_package_status(self):
         for package_id, package_delivery_time in self.driver1_times.items():
@@ -46,6 +51,7 @@ class DeliverySim:
 
             if package_id == 'HUB':
                 current_truck = 2
+                continue
             if package_delivery_time <= self.target_time_in_minutes:
                 delivery_hour = int(package_delivery_time // 60)
                 delivery_minute = int(package_delivery_time % 60)
